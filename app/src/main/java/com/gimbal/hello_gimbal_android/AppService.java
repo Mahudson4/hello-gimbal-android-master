@@ -1,10 +1,13 @@
 package com.gimbal.hello_gimbal_android;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.IBinder;
-import android.widget.ImageView;
 
 import com.gimbal.android.Communication;
 import com.gimbal.android.CommunicationListener;
@@ -58,8 +61,44 @@ public class AppService extends Service {
             public Notification.Builder prepareCommunicationForDisplay(Communication communication, Visit visit, int notificationId) {
                 addEvent(String.format( "Communication Delivered :"+communication.getTitle()));
                 // If you want a custom notification create and return it here
-                return null;
+                //Dialog notif= MainActivity.onCreateDialog();
+
+                Notification.Builder mBuilder =
+                        new Notification.Builder(AppService.this)
+                                .setSmallIcon(R.drawable.safe_step_icon)
+                                .setContentTitle("Look Up")
+                                .setContentText("You are about to cross the street, LOOK UP!");
+                //Notification.InboxStyle inboxStyle= new Notification.InboxStyle();
+               /// mBuilder.setStyle(inboxStyle);
+                mBuilder.setColor(Color.GRAY);
+                mBuilder.setLights(Color.CYAN, 4, 1);
+                mBuilder.setVibrate(new long[]{1000, 1000});
+                Uri alarmSound= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                mBuilder.setSound(alarmSound);
+                mBuilder.setPriority(Notification.PRIORITY_MAX);
+
+
+                int mNotificationId = 001;
+                NotificationManager mNotifyMgr =
+                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                mNotifyMgr.notify(mNotificationId, mBuilder.build());
+
+
+                return mBuilder;
+
             }
+
+           /* public Dialog onCreateDialog() {
+                AlertDialog.Builder alert = new AlertDialog.Builder(AppService.this);
+                alert.setTitle("LOOK UP!");
+                alert.setMessage("You are about to cross the street. Please LOOK UP!");
+                alert.setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                            }
+                        });
+                return alert.create();
+            }*/
 
             @Override
             public Notification.Builder prepareCommunicationForDisplay(Communication communication, Push push, int notificationId) {

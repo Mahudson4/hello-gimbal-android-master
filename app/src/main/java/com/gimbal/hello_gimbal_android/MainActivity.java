@@ -1,5 +1,6 @@
 package com.gimbal.hello_gimbal_android;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.bluetooth.BluetoothAdapter;
 
 
 
@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -69,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
+
 
     public static class PlaceholderFragment extends Fragment{
         public PlaceholderFragment(){
